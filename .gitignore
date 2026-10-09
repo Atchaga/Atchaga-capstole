@@ -1,0 +1,8 @@
+target/
+node_modules/
+.env
+.env.*
+!.env.example
+*.mv.db
+*.trace.db
+application-local.properties
