@@ -32,9 +32,16 @@ async function apiFetch(path, options = {}) {
             throw new Error('Unauthorized');
         }
 
-        // Handle empty responses
+        // Handle empty or non-JSON responses
         const text = await response.text();
-        const data = text ? JSON.parse(text) : null;
+        let data = null;
+        if (text) {
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                throw new Error('Server returned an invalid response. Please try again.');
+            }
+        }
 
         if (!response.ok) {
             const message = (data && data.error) || (data && data.message) || 'Request failed. Please try again.';
